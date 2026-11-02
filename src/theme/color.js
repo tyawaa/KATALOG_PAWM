@@ -13,3 +13,19 @@ export const COLORS = {
   danger: '#B42318',      // Pesan error
   onPrimary: '#FFFFFF',   // Teks di atas tombol ungu
 };
+
+export const DARK_COLORS = {
+  ...COLORS,
+
+  primary: '#DAB8EA',
+  secondary: '#D99FC5',
+
+  background: '#18121E',
+  card: '#251C2D',
+
+  text: '#F5EDF9',
+  muted: '#BCAFC5',
+  border: '#493951',
+  danger: '#FFB4AB',
+  onPrimary: '#281B30',
+};
