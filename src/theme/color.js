@@ -12,6 +12,7 @@ export const COLORS = {
   border: '#E7DFEB',      // Garis batas
   danger: '#B42318',      // Pesan error
   onPrimary: '#FFFFFF',   // Teks di atas tombol ungu
+  onHighlight: '#281B30', 
 };
 
 export const DARK_COLORS = {
