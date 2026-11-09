@@ -2,11 +2,13 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Tabs } from 'expo-router';
 
+import { useFavorit } from '../context/FavoritContext';
 import useThemeColors from '../hooks/useThemeColors';
 
 /** @returns {import('react').ReactElement} */
 export default function TabNavigator() {
   const { colors } = useThemeColors();
+  const { favorit } = useFavorit();
 
   return (
     <Tabs screenOptions={{
@@ -22,6 +24,7 @@ export default function TabNavigator() {
       }} />
       <Tabs.Screen name="favorit" options={{
         title: 'Favorit',
+        tabBarBadge: favorit.length || undefined,
         tabBarIcon: ({ focused, size }) => <Ionicons name="heart" color={focused ? colors.primary : colors.muted} size={size} />,
       }} />
       <Tabs.Screen name="keranjang" options={{

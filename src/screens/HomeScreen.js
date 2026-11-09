@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { router } from 'expo-router';
 import {
-  FlatList, StyleSheet, Text, useWindowDimensions, View,
+  FlatList, StyleSheet, Text, View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -11,28 +11,27 @@ import CategoryChips from '../components/CategoryChips';
 import CustomInput from '../components/CustomInput';
 import HeaderBar from '../components/HeaderBar';
 import PromoBanner from '../components/PromoBanner';
+import { useFavorit } from '../context/FavoritContext';
 import { DUMMY_PRODUCTS } from '../data/dummy';
+import useProductGrid, { PRODUCT_GRID_GAP, PRODUCT_GRID_PADDING } from '../hooks/useProductGrid';
 import useThemeColors from '../hooks/useThemeColors';
 import { TYPOGRAPHY } from '../theme/typography';
 
-const PADDING = 16;
-const GAP = 12;
+const PADDING = PRODUCT_GRID_PADDING;
+const GAP = PRODUCT_GRID_GAP;
 const categories = ['Semua', ...new Set(DUMMY_PRODUCTS.map((product) => product.category))];
 /** @type {('Termurah' | 'Termahal')[]} */
 const sortOptions = ['Termurah', 'Termahal'];
 
 export default function HomeScreen() {
-  const { width } = useWindowDimensions();
+  const { columns, cardWidth, onLayout } = useProductGrid();
   const insets = useSafeAreaInsets();
   const { colors } = useThemeColors();
-  const [contentWidth, setContentWidth] = useState(width - insets.left - insets.right);
+  const { isFavorit, toggleFavorit } = useFavorit();
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('Semua');
   const [sort, setSort] = useState(/** @type {'Termurah' | 'Termahal' | null} */ (null));
-  const [favorites, setFavorites] = useState(/** @type {Record<string, boolean>} */ ({ headphone: true, mug: true }));
 
-  const columns = width >= 768 ? 4 : width >= 500 ? 3 : 2;
-  const cardWidth = Math.max(0, (contentWidth - 2 * PADDING - (columns - 1) * GAP) / columns);
   const keyword = query.trim().toLowerCase();
   const products = DUMMY_PRODUCTS.filter((product) =>
     (category === 'Semua' || product.category === category)
@@ -46,7 +45,7 @@ export default function HomeScreen() {
   }
 
   return (
-    <View style={styles.screen} onLayout={(event) => setContentWidth(event.nativeEvent.layout.width)}>
+    <View style={styles.screen} onLayout={onLayout}>
       <HeaderBar title="KatalogKu" subtitle="Temukan produk favoritmu" />
 
       <FlatList
@@ -96,11 +95,8 @@ export default function HomeScreen() {
               price={item.price}
               image={item.thumbnail}
               onPress={() => router.push({ pathname: '/detail/[id]', params: { id: item.id } })}
-              isFavorite={Boolean(favorites[item.id])}
-              onToggleFavorite={() => setFavorites((current) => ({
-                ...current,
-                [item.id]: !current[item.id],
-              }))}
+              isFavorite={isFavorit(item.id)}
+              onToggleFavorite={() => toggleFavorit(item)}
             />
           </View>
         )}

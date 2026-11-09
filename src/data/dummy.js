@@ -1,3 +1,4 @@
+/** @type {import('../utils/product').Product[]} */
 export const DUMMY_PRODUCTS = [
   {
     id: 'tote',

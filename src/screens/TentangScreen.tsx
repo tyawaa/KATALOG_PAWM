@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import HeaderBar from '../components/HeaderBar';
 import useThemeColors from '../hooks/useThemeColors';
 import { TYPOGRAPHY } from '../theme/typography';
+import { STUDENT_IDENTITY } from '../utils/profil';
 
 export default function TentangScreen(): ReactElement {
   const { colors } = useThemeColors();
@@ -16,8 +17,8 @@ export default function TentangScreen(): ReactElement {
       <HeaderBar title="Tentang" onBack={() => router.back()} />
       <ScrollView contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 24 }]}>
         <Text style={[TYPOGRAPHY.heading, { color: colors.primary }]}>KatalogKu</Text>
-        <Text style={[TYPOGRAPHY.body, { color: colors.text }]}>Tyara Penelope</Text>
-        <Text style={[TYPOGRAPHY.body, { color: colors.muted }]}>NIM: 18224122</Text>
+        <Text style={[TYPOGRAPHY.body, { color: colors.text }]}>{STUDENT_IDENTITY.nama}</Text>
+        <Text style={[TYPOGRAPHY.body, { color: colors.muted }]}>NIM: {STUDENT_IDENTITY.nim}</Text>
       </ScrollView>
     </View>
   );

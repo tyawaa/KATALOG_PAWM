@@ -4,7 +4,7 @@ import { Stack } from 'expo-router';
 import useThemeColors from '../hooks/useThemeColors';
 
 /**
- * Stack Modul 5: tab utama, detail produk, dan halaman Tentang.
+ * Stack aplikasi: tab utama, detail produk, Edit Profil, dan Tentang.
  * @returns {import('react').ReactElement}
  */
 export default function AppNavigator() {
@@ -14,6 +14,7 @@ export default function AppNavigator() {
     <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}>
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="detail/[id]" />
+      <Stack.Screen name="edit-profil" />
       <Stack.Screen name="tentang" />
     </Stack>
   );

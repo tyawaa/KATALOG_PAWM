@@ -1,5 +1,4 @@
 // @ts-check
-import { useState } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -7,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Button from '../components/Button';
 import HeaderBar from '../components/HeaderBar';
 import Rating from '../components/Rating';
+import { useFavorit } from '../context/FavoritContext';
 import { DUMMY_PRODUCTS } from '../data/dummy';
 import useThemeColors from '../hooks/useThemeColors';
 import { TYPOGRAPHY } from '../theme/typography';
@@ -15,7 +15,7 @@ import formatRupiah from '../utils/formatRupiah';
 export default function DetailScreen() {
   const { colors } = useThemeColors();
   const insets = useSafeAreaInsets();
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { isFavorit, toggleFavorit } = useFavorit();
   const { id } = useLocalSearchParams();
   const product = DUMMY_PRODUCTS.find((item) => item.id === id);
 
@@ -29,6 +29,8 @@ export default function DetailScreen() {
       </View>
     );
   }
+
+  const isFavorite = isFavorit(product.id);
 
   return (
     <View style={styles.screen}>
@@ -72,9 +74,9 @@ export default function DetailScreen() {
       ]}>
         <View style={styles.content}>
           <Button
-            title={isFavorite ? 'Tersimpan di Favorit' : 'Tambah ke Favorit'}
+            title={isFavorite ? 'Hapus dari Favorit' : 'Tambah ke Favorit'}
             variant={isFavorite ? 'outline' : 'primary'}
-            onPress={() => setIsFavorite((current) => !current)}
+            onPress={() => toggleFavorit(product)}
           />
         </View>
       </View>
