@@ -4,6 +4,10 @@ import { Pressable, ScrollView, StyleSheet, Text } from 'react-native';
 import useThemeColors from '../hooks/useThemeColors';
 import { TYPOGRAPHY } from '../theme/typography';
 
+/**
+ * @template {string} T
+ * @param {{ items: T[], selected: T | null, onSelect: (item: T) => void }} props
+ */
 export default function CategoryChips({ items, selected, onSelect }) {
   const { colors } = useThemeColors();
 

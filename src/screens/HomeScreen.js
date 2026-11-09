@@ -1,4 +1,6 @@
+// @ts-check
 import { useState } from 'react';
+import { router } from 'expo-router';
 import {
   FlatList, StyleSheet, Text, useWindowDimensions, View,
 } from 'react-native';
@@ -16,6 +18,7 @@ import { TYPOGRAPHY } from '../theme/typography';
 const PADDING = 16;
 const GAP = 12;
 const categories = ['Semua', ...new Set(DUMMY_PRODUCTS.map((product) => product.category))];
+/** @type {('Termurah' | 'Termahal')[]} */
 const sortOptions = ['Termurah', 'Termahal'];
 
 export default function HomeScreen() {
@@ -25,8 +28,8 @@ export default function HomeScreen() {
   const [contentWidth, setContentWidth] = useState(width - insets.left - insets.right);
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('Semua');
-  const [sort, setSort] = useState(null);
-  const [favorites, setFavorites] = useState({ headphone: true, mug: true });
+  const [sort, setSort] = useState(/** @type {'Termurah' | 'Termahal' | null} */ (null));
+  const [favorites, setFavorites] = useState(/** @type {Record<string, boolean>} */ ({ headphone: true, mug: true }));
 
   const columns = width >= 768 ? 4 : width >= 500 ? 3 : 2;
   const cardWidth = Math.max(0, (contentWidth - 2 * PADDING - (columns - 1) * GAP) / columns);
@@ -92,6 +95,7 @@ export default function HomeScreen() {
               title={item.title}
               price={item.price}
               image={item.thumbnail}
+              onPress={() => router.push({ pathname: '/detail/[id]', params: { id: item.id } })}
               isFavorite={Boolean(favorites[item.id])}
               onToggleFavorite={() => setFavorites((current) => ({
                 ...current,

@@ -2,6 +2,9 @@ import { Pressable, StyleSheet, Text } from 'react-native';
 import useThemeColors from '../hooks/useThemeColors';
 import { TYPOGRAPHY } from '../theme/typography';
 
+/**
+ * @param {{ title: string, onPress?: () => void, variant?: 'primary' | 'outline' | 'danger', disabled?: boolean }} props
+ */
 export default function Button({
   title,
   onPress,

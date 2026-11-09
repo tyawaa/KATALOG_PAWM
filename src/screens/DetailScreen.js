@@ -1,4 +1,6 @@
+// @ts-check
 import { useState } from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -14,11 +16,23 @@ export default function DetailScreen() {
   const { colors } = useThemeColors();
   const insets = useSafeAreaInsets();
   const [isFavorite, setIsFavorite] = useState(false);
-  const product = DUMMY_PRODUCTS[0];
+  const { id } = useLocalSearchParams();
+  const product = DUMMY_PRODUCTS.find((item) => item.id === id);
+
+  if (!product) {
+    return (
+      <View style={styles.screen}>
+        <HeaderBar title="Produk tidak ditemukan" onBack={() => router.back()} />
+        <Text style={[TYPOGRAPHY.body, styles.scroll, { color: colors.danger }]}>
+          Produk dengan ID {String(id)} tidak tersedia. Kembali dan pilih produk dari Beranda.
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.screen}>
-      <HeaderBar title="Detail Produk" />
+      <HeaderBar title={product.title} onBack={() => router.back()} />
       <ScrollView contentContainerStyle={styles.scroll}>
         <View style={styles.content}>
           <Image

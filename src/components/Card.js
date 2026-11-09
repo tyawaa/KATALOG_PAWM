@@ -13,6 +13,18 @@ import formatRupiah from '../utils/formatRupiah';
 import Rating from './Rating';
 
 
+/**
+ * @param {{
+ *   title: string,
+ *   price: number,
+ *   image: string | import('react-native').ImageSourcePropType,
+ *   onPress?: () => void,
+ *   discount?: number,
+ *   rating?: number,
+ *   isFavorite?: boolean,
+ *   onToggleFavorite?: () => void
+ * }} props
+ */
 export default function Card({
   title,
   price,
@@ -33,95 +45,91 @@ export default function Card({
     && discount <= 100;
 
   return (
-    <Pressable
-      accessibilityRole={onPress ? 'button' : undefined}
-      accessibilityLabel={onPress ? `${title}, ${rupiah}` : undefined}
-      onPress={onPress}
-      style={({ pressed }) => [
+    <View
+      style={[
         styles.card,
-        {
-          backgroundColor: colors.card,
-          borderColor: colors.border,
-          opacity: pressed && onPress ? 0.9 : 1,
-        },
+        { backgroundColor: colors.card, borderColor: colors.border },
       ]}
     >
-      <View style={{ backgroundColor: colors.background }}>
-        <Image
-          source={typeof image === 'string' ? { uri: image } : image}
-          style={styles.image}
-          resizeMode="contain"
-        />
+      <Pressable
+        accessibilityRole={onPress ? 'button' : undefined}
+        accessibilityLabel={onPress ? `${title}, ${rupiah}` : undefined}
+        onPress={onPress}
+        style={({ pressed }) => ({ opacity: pressed && onPress ? 0.9 : 1 })}
+      >
+        <View style={{ backgroundColor: colors.background }}>
+          <Image
+            source={typeof image === 'string' ? { uri: image } : image}
+            style={styles.image}
+            resizeMode="contain"
+          />
 
-        {hasDiscount ? (
-          <View
-            style={[
-              styles.discount,
-              { backgroundColor: colors.highlight },
-            ]}
-          >
-            <Text
+          {hasDiscount ? (
+            <View
               style={[
-                TYPOGRAPHY.caption,
-                { color: colors.onHighlight },
+                styles.discount,
+                { backgroundColor: colors.highlight },
               ]}
             >
-              -{discount}%
-            </Text>
-          </View>
-        ) : null}
+              <Text
+                style={[
+                  TYPOGRAPHY.caption,
+                  { color: colors.onHighlight },
+                ]}
+              >
+                -{discount}%
+              </Text>
+            </View>
+          ) : null}
+        </View>
 
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={
-            isFavorite
-              ? `Hapus ${title} dari favorit`
-              : `Tambah ${title} ke favorit`
-          }
-          accessibilityState={{ selected: isFavorite }}
-          onPress={(event) => {
-            event.stopPropagation();
-            onToggleFavorite?.();
-          }}
-          style={[
-            styles.favorite,
-            { backgroundColor: colors.card },
-          ]}
-        >
-          <Ionicons
-            name={isFavorite ? 'heart' : 'heart-outline'}
-            size={22}
-            color={isFavorite ? colors.accent : colors.muted}
-          />
-        </Pressable>
-      </View>
+        <View style={styles.body}>
+          <Text
+            numberOfLines={2}
+            style={[
+              styles.title,
+              TYPOGRAPHY.small,
+              { color: colors.text },
+            ]}
+          >
+            {title}
+          </Text>
 
-      <View style={styles.body}>
-        <Text
-          numberOfLines={2}
-          style={[
-            styles.title,
-            TYPOGRAPHY.small,
-            { color: colors.text },
-          ]}
-        >
-          {title}
-        </Text>
+          <Text
+            style={[
+              TYPOGRAPHY.small,
+              { color: colors.primary },
+            ]}
+          >
+            {rupiah}
+          </Text>
 
-        <Text
-          style={[
-            TYPOGRAPHY.small,
-            { color: colors.primary },
-          ]}
-        >
-          {rupiah}
-        </Text>
-
-        {typeof rating === 'number' ? (
-          <Rating value={rating} />
-        ) : null}
-      </View>
-    </Pressable>
+          {typeof rating === 'number' ? (
+            <Rating value={rating} />
+          ) : null}
+        </View>
+      </Pressable>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={
+          isFavorite
+            ? `Hapus ${title} dari favorit`
+            : `Tambah ${title} ke favorit`
+        }
+        accessibilityState={{ selected: isFavorite }}
+        onPress={onToggleFavorite}
+        style={[
+          styles.favorite,
+          { backgroundColor: colors.card },
+        ]}
+      >
+        <Ionicons
+          name={isFavorite ? 'heart' : 'heart-outline'}
+          size={22}
+          color={isFavorite ? colors.accent : colors.muted}
+        />
+      </Pressable>
+    </View>
   );
 }
 

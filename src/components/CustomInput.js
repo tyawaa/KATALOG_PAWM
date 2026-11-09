@@ -12,6 +12,14 @@ import useThemeColors from '../hooks/useThemeColors';
 import { TYPOGRAPHY } from '../theme/typography';
 
 
+/**
+ * @param {import('react-native').TextInputProps & {
+ *   label?: string,
+ *   error?: string,
+ *   helperText?: string,
+ *   icon?: import('react').ComponentProps<typeof Ionicons>['name']
+ * }} props
+ */
 export default function CustomInput({
   label,
   error,

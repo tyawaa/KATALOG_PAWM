@@ -6,6 +6,9 @@ import useThemeColors from '../hooks/useThemeColors';
 import { TYPOGRAPHY } from '../theme/typography';
 
 
+/**
+ * @param {{ title: string, subtitle?: string, onBack?: () => void, includeSafeArea?: boolean }} props
+ */
 export default function HeaderBar({
   title,
   subtitle,
