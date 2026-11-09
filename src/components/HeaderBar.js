@@ -5,6 +5,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useThemeColors from '../hooks/useThemeColors';
 import { TYPOGRAPHY } from '../theme/typography';
 
+/**
+ * @param {{ title: string, subtitle?: string,
+ *   onBack?: import('react-native').PressableProps['onPress'], includeSafeArea?: boolean }} props
+ */
 export default function HeaderBar({
   title,
   subtitle,

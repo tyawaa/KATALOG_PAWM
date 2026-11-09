@@ -11,6 +11,7 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import {
   SafeAreaProvider,
+  SafeAreaView,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 
@@ -25,10 +26,12 @@ import HeaderBar from './src/components/HeaderBar';
 import Rating from './src/components/Rating';
 
 import useThemeColors from './src/hooks/useThemeColors';
+import DetailScreen from './src/screens/DetailScreen';
+import HomeScreen from './src/screens/HomeScreen';
 import { TYPOGRAPHY } from './src/theme/typography';
 
 function ComponentDemo() {
-  const { colors, isDark } = useThemeColors();
+  const { colors } = useThemeColors();
   const insets = useSafeAreaInsets();
 
   const [nama, setNama] = useState('');
@@ -60,8 +63,6 @@ function ComponentDemo() {
         { backgroundColor: colors.background },
       ]}
     >
-      <StatusBar style={isDark ? 'light' : 'dark'} />
-
       <HeaderBar
         title="KatalogKu"
         subtitle="Uji komponen Modul 3"
@@ -246,7 +247,7 @@ export default function App() {
     Inter_700Bold,
   });
 
-  const { colors } = useThemeColors();
+  const { colors, isDark } = useThemeColors();
 
   if (!loaded) {
     return (
@@ -267,9 +268,21 @@ export default function App() {
     );
   }
 
+  // Modul 4 menguji layar secara terpisah sebelum navigasi dibuat di Modul 5.
+  const screen = process.env.EXPO_PUBLIC_PREVIEW_SCREEN;
+  const Screen = screen === 'detail' ? DetailScreen
+    : screen === 'components' ? ComponentDemo
+    : HomeScreen;
+
   return (
     <SafeAreaProvider>
-      <ComponentDemo />
+      <StatusBar style={isDark ? 'light' : 'dark'} />
+      <SafeAreaView
+        edges={['left', 'right']}
+        style={[styles.page, { backgroundColor: colors.background }]}
+      >
+        <Screen />
+      </SafeAreaView>
     </SafeAreaProvider>
   );
 }
