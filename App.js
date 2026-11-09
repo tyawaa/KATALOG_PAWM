@@ -64,7 +64,7 @@ function ComponentDemo() {
 
       <HeaderBar
         title="KatalogKu"
-        subtitle="Uji komponen · Modul 3"
+        subtitle="Uji komponen Modul 3"
       />
 
       <ScrollView
