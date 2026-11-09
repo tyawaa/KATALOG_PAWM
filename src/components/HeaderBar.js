@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useThemeColors from '../hooks/useThemeColors';
 import { TYPOGRAPHY } from '../theme/typography';
 
+
 export default function HeaderBar({
   title,
   subtitle,

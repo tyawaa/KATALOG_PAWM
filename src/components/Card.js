@@ -9,7 +9,9 @@ import {
 
 import useThemeColors from '../hooks/useThemeColors';
 import { TYPOGRAPHY } from '../theme/typography';
+import formatRupiah from '../utils/formatRupiah';
 import Rating from './Rating';
+
 
 export default function Card({
   title,
@@ -23,13 +25,7 @@ export default function Card({
 }) {
   const { colors } = useThemeColors();
 
-  const rupiah = typeof price === 'number'
-    ? new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        maximumFractionDigits: 0,
-      }).format(price).replace(/\s/g, '')
-    : price;
+  const rupiah = formatRupiah(price);
 
   const hasDiscount =
     typeof discount === 'number'
@@ -38,15 +34,15 @@ export default function Card({
 
   return (
     <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={`${title}, ${rupiah}`}
+      accessibilityRole={onPress ? 'button' : undefined}
+      accessibilityLabel={onPress ? `${title}, ${rupiah}` : undefined}
       onPress={onPress}
       style={({ pressed }) => [
         styles.card,
         {
           backgroundColor: colors.card,
           borderColor: colors.border,
-          opacity: pressed ? 0.9 : 1,
+          opacity: pressed && onPress ? 0.9 : 1,
         },
       ]}
     >
